@@ -1,0 +1,53 @@
+﻿@model MVCCore.Models.Product
+
+@{
+    ViewData["Title"] = "Cart Items";
+    ViewData["Image"] = @Model.Name + ".jpeg";
+
+}
+
+<h1>Add the item(s) to cart</h1>
+
+<h4>Product</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTheItemToCart" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label> Product Id</label> <b> : @Model.Id</b>
+
+            </div>
+            <div class="form-group">
+                <label> Product Name</label> <b> : @Model.Name</b>
+            </div>
+            <div class="form-group">
+
+                <img src="~/images/@ViewData["Image"]" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Quantity, Enumerable.Range(1, 10).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }),
+              new { placeholder = Html.DisplayNameFor(x => x.Quantity), @class = "form-control" })
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label> Product Cost</label><b> : @Model.Cost</b>
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add the items(s) to cart" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListOfItems">Back to Home Page</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

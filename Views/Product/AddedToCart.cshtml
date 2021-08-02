@@ -1,0 +1,152 @@
+﻿@model IEnumerable<MVCCore.Models.Product>
+
+@{
+    ViewData["Title"] = "Catrt Items";
+}
+
+@if (Model.ToList().Count == 0)
+{
+    <div id="sc-active-cart" data-name="Active Cart" class="a-cardui sc-card-style sc-list sc-java-remote-feature celwidget sc-card-spacing-top-none" data-a-card-type="basic" data-csa-c-id="h23dgu-yxkgq1-r7po70-uyhs68" data-cel-widget="sc-active-cart">
+        <div class="a-cardui-body a-scroller-none">
+
+            <a name="sc-anchor-active-cart" aria-hidden="true"></a>
+
+
+            <div class="a-row sc-cart-header sc-compact-bottom">
+
+
+                <div class="a-row">
+                    <h1 class="a-spacing-mini a-spacing-top-base">
+                        Your Cart is empty.
+                    </h1>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="sc-ags-price-limit-warning">
+
+
+            </div>
+
+
+            <form id="activeCartViewForm" method="post" action="/gp/cart/view.html/ref=ord_cart_shr?app-nav-type=none&amp;dc=df">
+                <input type="hidden" name="fromAUI" value="1">
+                <input type="hidden" name="requestID" value="91CDNT6QZ00QA7TC9EPJ">
+                <input type="hidden" name="timeStamp" value="1627715305">
+                <input type="hidden" name="token" value="gKs0CO1Fq78TeCjwIeMVXl+TNmgCxIfWgAJ8UeoAAAAMAAAAAGEE9ulyYXcAAAAA">
+                <input type="hidden" name="anti-csrftoken-a2z" value="g7umY6uSj18kSyzFbrtl9zLvL7gY3IHAetGgA8/apiFHAAAAAQAAAABhBPbpcmF3AAAAAAOg0Bifa6o/kj8T3F+olA==">
+
+
+
+
+
+
+
+                <div class="sc-empty-cart sc-java-remote-feature" data-name="Empty Cart">
+
+
+
+                    <p class="a-spacing-top-base">
+                        Check your Saved for later items below or <a class="a-link-normal" asp-controller="Product" asp-action="ListOfItems">continue shopping</a>.
+                    </p>
+
+
+
+                </div>
+
+
+
+            </form>
+
+
+
+        </div>
+    </div>
+}
+else
+{
+
+
+    <h1>List of Items Added to the cart</h1>
+
+
+    <table class="table ">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cost)
+                </th>
+
+                <th>Prodct Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var itemImage = item.Name + ".jpeg";
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        <img src="~/images/@itemImage" />
+                    </td>
+                    <td>
+                        @Html.ActionLink("Prodct Descrption", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete Item from Cart", "Delete", new { id = item.Id }) |
+                        @Html.ActionLink("Buy Now", "BuyNow", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+    
+    <div>
+        <p>Total Cart Value : @ViewBag.Cost</p> 
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="BuyNow" method="post">
+
+                <div class="form-group">
+                    <input type="submit" value="Buy Now" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<div>
+    <a asp-action="ListOfItems">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

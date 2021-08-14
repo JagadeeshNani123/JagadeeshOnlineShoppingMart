@@ -8,6 +8,7 @@ namespace MVCCore.Models
 {
     public class Product
     {
+        [Key]
         [Required(ErrorMessage="Enter product Id")]
         public int Id { get; set; }
 

@@ -1,25 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MVCCore.Models;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace MVCCore.Controllers
 {
-
-     
+    
+    
     public class ProductController : Controller
     {
-        public AppDBContext db = null;
-        public ProductController(AppDBContext appDBContext)
-        {
-            db = appDBContext;
-        }
+
         public List<Product> products = new List<Product>()
         {
             new Product
@@ -51,29 +44,6 @@ namespace MVCCore.Controllers
                 Quantity=10
             }
         };
-
-        private void GetProducts()
-        {
-            List<SelectListItem> products = (from c in db.products
-                                             orderby c.Name ascending
-                                             select new SelectListItem() { Text = c.Name, Value = c.Name }).ToList();
-            ViewBag.Products = products;
-        }
-
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            GetProducts();
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(Product prd)
-        {
-
-            return View();
-        }
         public IActionResult ListOfItems()
         {
             return View(products);
